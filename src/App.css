@@ -93,8 +93,8 @@ button:hover{box-shadow:0 0 16px var(--accent)}
 .dgate{position:relative;width:min(27vw,170px);aspect-ratio:558/824;perspective:700px;padding:0;border:0;background:none;cursor:pointer;transition:opacity .6s}
 .dgate:hover{box-shadow:none;filter:brightness(1.25)}
 .dgate.dim{opacity:.25}
-.behind{position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(2rem,9vmin,3.2rem);opacity:0;transition:opacity .6s .3s;border-radius:50% 50% 0 0/22% 22% 0 0}
-.open .behind{opacity:1}
+.behind{position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(2rem,9vmin,3.2rem);opacity:0;transition:opacity .15s;border-radius:50% 50% 0 0/22% 22% 0 0}
+.open .behind{opacity:1;transition:opacity .6s .3s}
 .b-candy{background:radial-gradient(circle,#FFE2A8,#FF8C42 60%,#5a1a08)}
 .b-empty{background:radial-gradient(circle,#1B2A41,#000)}
 .b-trick{background:radial-gradient(circle,#c00,#300 70%,#000)}
@@ -117,3 +117,76 @@ button:hover{box-shadow:0 0 16px var(--accent)}
 .hud{position:absolute;top:10px;left:0;right:0;z-index:3;display:flex;justify-content:center;align-items:center;gap:1.2rem;font-size:1.3rem;pointer-events:none}
 .hud button{position:absolute;left:10px;pointer-events:auto;font-size:.9rem;padding:.3rem 1rem;background:rgba(5,7,13,.7)}
 .hint{position:absolute;bottom:14px;left:0;right:0;text-align:center;z-index:3;margin:0;color:#5d7390;pointer-events:none}
+
+.games{justify-content:center;justify-content:safe center;overflow-y:auto}
+@media(max-height:720px){.gcard{width:112px;height:112px;font-size:.85rem}.gcard span{font-size:2rem}}
+.mazecv{width:min(92vw,50vh,460px);height:auto;display:block;border:1px solid var(--accent);border-radius:6px}
+.crowcv{width:min(94vw,760px,100vh*1.2);height:auto;display:block;border:1px solid var(--accent);border-radius:8px;cursor:crosshair;touch-action:manipulation}
+.dpad{display:none;grid-template-columns:repeat(3,52px);grid-template-areas:". u ." "l . r" ". d .";gap:6px;touch-action:none}
+@media(pointer:coarse){.dpad{display:grid}}
+.dpad button{width:52px;height:52px;padding:0;font-size:1.2rem;letter-spacing:0;touch-action:none}
+.dpad .u{grid-area:u}.dpad .l{grid-area:l}.dpad .r{grid-area:r}.dpad .d{grid-area:d}
+
+/* ---- atmosphere ---- */
+.games{z-index:0}
+body::after{content:"";position:fixed;inset:-5%;z-index:99;pointer-events:none;opacity:.09;animation:grain .6s steps(4) infinite;
+ background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes grain{25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-2%)}}
+h1{animation:flick 4s infinite,glitch 7s infinite}
+@keyframes glitch{0%,93%,100%{transform:none}
+ 94%{transform:translate(-3px,1px) skewX(8deg);text-shadow:3px 0 #c00,-3px 0 #0cf}
+ 96%{transform:translate(3px,-1px);text-shadow:-3px 0 #c00,3px 0 #0cf}
+ 98%{transform:translate(0,2px) skewX(-6deg);text-shadow:2px 0 #c00,-2px 0 #0cf}}
+.atmo{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.mist i{position:absolute;left:-30%;width:160%;height:45%;background:radial-gradient(ellipse at 50% 50%,rgba(150,180,215,.16),transparent 65%);animation:mdrift 22s linear infinite alternate}
+.mist i:nth-child(1){bottom:-8%}
+.mist i:nth-child(2){bottom:18%;opacity:.7;animation-duration:31s;animation-direction:alternate-reverse}
+@keyframes mdrift{to{transform:translateX(18%)}}
+.web{position:absolute;top:0;left:0;width:min(22vw,150px)}
+.web.flip{left:auto;right:0;transform:scaleX(-1)}
+.torch{position:absolute;bottom:12%;width:34px;height:140px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.torch.l{left:7%}.torch.r{right:7%}
+.tstick{width:10px;height:70px;border-radius:3px;background:linear-gradient(90deg,#1a1410,#3a2a1c,#1a1410)}
+.tflame{position:relative;width:30px;height:56px;margin-bottom:-6px;transform-origin:50% 100%;mix-blend-mode:screen;filter:blur(.6px);
+ border-radius:50% 50% 50% 50%/62% 62% 38% 38%;
+ background:radial-gradient(ellipse at 50% 85%,#EAF8FF 0%,#8FD3FF 25%,#3D9BFF 50%,#1F5FE0 75%,transparent 100%);
+ animation:tflick .17s infinite alternate,tflick2 .53s infinite alternate}
+.tglow{position:absolute;bottom:50px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(63,167,255,.26),transparent 65%);animation:tflick2 2.3s infinite alternate}
+@keyframes tflick{from{transform:scale(1,1) skewX(0)}to{transform:scale(.9,1.1) skewX(5deg)}}
+@keyframes tflick2{from{opacity:.8}to{opacity:1}}
+@media(max-width:560px){.torch{display:none}}
+.watch{position:absolute;display:flex;gap:14px;opacity:0;animation:watch 11s infinite}
+.watch i{display:block;width:7px;height:7px;border-radius:50%;background:#f33;box-shadow:0 0 10px 4px rgba(255,0,0,.6)}
+@keyframes watch{0%,55%,100%{opacity:0}58%{opacity:1;transform:scaleY(1)}62%{transform:scaleY(.1)}66%{transform:scaleY(1)}72%{opacity:1}76%{opacity:0}}
+.bat{position:fixed;z-index:4;pointer-events:none;font-size:2rem;filter:drop-shadow(0 0 6px #000);animation-timing-function:linear;animation-fill-mode:forwards}
+.bat.ltr{animation-name:batltr}.bat.rtl{animation-name:batrtl}
+@keyframes batltr{from{left:-10vw;transform:translateY(0)}30%{transform:translateY(-30px)}60%{transform:translateY(25px)}to{left:110vw;transform:translateY(-10px)}}
+@keyframes batrtl{from{left:110vw;transform:translateY(0) scaleX(-1)}30%{transform:translateY(25px) scaleX(-1)}60%{transform:translateY(-30px) scaleX(-1)}to{left:-10vw;transform:translateY(10px) scaleX(-1)}}
+.lflash{position:fixed;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .08s;background:radial-gradient(ellipse at 50% 0,rgba(219,234,255,.9),rgba(127,184,230,.3))}
+.lflash.on{opacity:.5}
+.vig{position:fixed;inset:0;z-index:4;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.75));animation:vpulse 4s ease-in-out infinite}
+@keyframes vpulse{50%{opacity:.6}}
+.trail{position:fixed;inset:0;z-index:3;pointer-events:none}
+.pen{color:#f55;text-shadow:0 0 8px #f00}
+
+/* ---- spooky cursors: blue flame (normal), red-eyed skull (clickable), reticle (games) ---- */
+:root{--cur:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2732%27%20height%3D%2732%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cdefs%3E%3CradialGradient%20id%3D%27g%27%20cx%3D%2750%25%27%20cy%3D%2780%25%27%20r%3D%2770%25%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23EAF8FF%27%2F%3E%3Cstop%20offset%3D%27.35%27%20stop-color%3D%27%238FD3FF%27%2F%3E%3Cstop%20offset%3D%27.7%27%20stop-color%3D%27%233D9BFF%27%2F%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%231F5FE0%27%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Cpath%20d%3D%27M16%202C18%209%2025%2012%2025%2020C25%2026.5%2021%2030%2016%2030C11%2030%207%2026.5%207%2020C7%2015%2010%2013%2011%209C13%2011%2013.5%2013%2014.5%2014C15.5%2010%2014%206%2016%202Z%27%20fill%3D%27url%28%23g%29%27%20stroke%3D%27%230B2A8F%27%20stroke-width%3D%271%27%2F%3E%3Cpath%20d%3D%27M16%2016C18%2019%2020%2021%2020%2024C20%2026.5%2018.3%2028%2016%2028C13.7%2028%2012%2026.5%2012%2024C12%2021%2014.5%2019%2016%2016Z%27%20fill%3D%27%23F2FAFF%27%20opacity%3D%27.9%27%2F%3E%3C%2Fsvg%3E") 16 3,auto;--cur-hand:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2732%27%20height%3D%2732%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cpath%20d%3D%27M16%203C9%203%205%208%205%2014c0%204%202%206%204%208v4c0%201%201%202%202%202h10c1%200%202-1%202-2v-4c2-2%204-4%204-8%200-6-4-11-11-11z%27%20fill%3D%27%23C9D6E3%27%20stroke%3D%27%230B1220%27%20stroke-width%3D%271.2%27%2F%3E%3Ccircle%20cx%3D%2711.5%27%20cy%3D%2714%27%20r%3D%273.2%27%20fill%3D%27%2305070D%27%2F%3E%3Ccircle%20cx%3D%2720.5%27%20cy%3D%2714%27%20r%3D%273.2%27%20fill%3D%27%2305070D%27%2F%3E%3Ccircle%20cx%3D%2711.5%27%20cy%3D%2714%27%20r%3D%271.4%27%20fill%3D%27%23ff2a2a%27%2F%3E%3Ccircle%20cx%3D%2720.5%27%20cy%3D%2714%27%20r%3D%271.4%27%20fill%3D%27%23ff2a2a%27%2F%3E%3Cpath%20d%3D%27M16%2017l-1.6%203.2h3.2z%27%20fill%3D%27%2305070D%27%2F%3E%3Cpath%20d%3D%27M12%2025v-2M16%2025v-2M20%2025v-2%27%20stroke%3D%27%2305070D%27%20stroke-width%3D%271.2%27%2F%3E%3C%2Fsvg%3E") 16 6,pointer;--cur-aim:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2736%27%20height%3D%2736%27%20viewBox%3D%270%200%2036%2036%27%3E%3Ccircle%20cx%3D%2718%27%20cy%3D%2718%27%20r%3D%2715%27%20fill%3D%27none%27%20stroke%3D%27%2305070D%27%20stroke-opacity%3D%27.55%27%20stroke-width%3D%273%27%2F%3E%3Ccircle%20cx%3D%2718%27%20cy%3D%2718%27%20r%3D%2711%27%20fill%3D%27none%27%20stroke%3D%27%237FB8E6%27%20stroke-width%3D%271.6%27%2F%3E%3Ccircle%20cx%3D%2718%27%20cy%3D%2718%27%20r%3D%272.2%27%20fill%3D%27%23ff2a2a%27%2F%3E%3Cpath%20d%3D%27M18%202v8M18%2026v8M2%2018h8M26%2018h8%27%20stroke%3D%27%237FB8E6%27%20stroke-width%3D%271.6%27%2F%3E%3C%2Fsvg%3E") 18 18,crosshair}
+html,body{cursor:var(--cur)}
+button,.gcard,.mcard,.dgate,.hitem,.link{cursor:var(--cur-hand)}
+.gcard.locked{cursor:var(--cur)}
+input{cursor:text}
+.hole,.crowcv,.hunt{cursor:var(--cur-aim)}
+
+/* ---- credits ---- */
+.mute{z-index:8}
+.credits{position:absolute;inset:0;overflow:hidden}
+.roll{position:absolute;left:0;right:0;top:100%;z-index:2;padding:0 1.2rem;text-align:center;animation:roll 70s linear forwards}
+@keyframes roll{to{transform:translateY(calc(-100% - 100vh))}}
+.c-big{margin:0;font:clamp(2.2rem,8vw,4rem) Creepster,cursive;letter-spacing:3px;text-shadow:0 0 12px var(--glow),0 0 34px var(--accent)}
+.c-sub{margin:.8rem 0 0;font-size:clamp(1.1rem,3.4vw,1.6rem);color:var(--text)}
+.c-gap{height:45vh}
+.c-head{margin:1rem 0 .6rem;color:var(--glow);letter-spacing:5px;font-size:.95rem}
+.c-item{margin:.5rem 0;font-size:1.15rem;color:var(--text)}
+.skipc{position:absolute;bottom:12px;right:14px;z-index:7;font-size:.8rem;padding:.3rem 1rem;background:rgba(5,7,13,.7)}
+.theend{position:absolute;inset:0;z-index:7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;animation:fade 2s}
+.c-note{margin:0;color:#5d7390;font-size:.95rem}
